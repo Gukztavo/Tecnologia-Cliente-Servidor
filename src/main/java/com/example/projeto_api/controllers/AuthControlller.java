@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping
 public class AuthControlller {
     @Autowired
     private final UserRepository repository;
@@ -35,18 +35,18 @@ public class AuthControlller {
     @PostMapping("/login") // se quiser alterar o nome do endpoint tem que alterar em filters tbm
     public ResponseEntity login(@RequestBody LoginRequestDTO body){
         User user = this.repository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("Usuario nao encontrado"));
-        if(passwordEncoder.matches(user.getSenha(), body.senha())){
+        if(user.getSenha().equals(body.senha())) { // Comparação direta sem hashing
             String token = this.tokenService.generateToken(user);
             return  ResponseEntity.ok(new ResponseDTO(user.getNome(),token));
         }
         return ResponseEntity.badRequest().build();
     }
-    @PostMapping("/register") // se quiser alterar o nome do endpoint tem que alterar em filters tbm
+    @PostMapping("/usuarios") // se quiser alterar o nome do endpoint tem que alterar em filters tbm
     public ResponseEntity register(@RequestBody RegisterRequestDTO body){
         Optional<User> user = this.repository.findByEmail(body.email());
     if (user.isEmpty()){
         User newUser = new User();
-        newUser.setSenha(passwordEncoder.encode(body.senha()));
+        newUser.setSenha(body.senha()); // Senha armazenada sem hashing (somente para testes)
         newUser.setEmail(body.email());
         newUser.setNome(body.nome());
         this.repository.save(newUser);
