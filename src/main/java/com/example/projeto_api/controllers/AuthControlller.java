@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -26,12 +23,12 @@ public class AuthControlller {
     private final PasswordEncoder passwordEncoder;
     @Autowired
     private final TokenService tokenService;
-
     public AuthControlller(UserRepository repository, PasswordEncoder passwordEncoder, TokenService tokenService) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
     }
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/login") // se quiser alterar o nome do endpoint tem que alterar em filters tbm
     public ResponseEntity login(@RequestBody LoginRequestDTO body){
         User user = this.repository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("Usuario nao encontrado"));
@@ -41,6 +38,7 @@ public class AuthControlller {
         }
         return ResponseEntity.badRequest().build();
     }
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/usuarios") // se quiser alterar o nome do endpoint tem que alterar em filters tbm
     public ResponseEntity register(@RequestBody RegisterRequestDTO body){
         Optional<User> user = this.repository.findByEmail(body.email());
