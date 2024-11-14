@@ -34,7 +34,7 @@ public class AuthControlller {
         User user = this.repository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("Usuario nao encontrado"));
         if(user.getSenha().equals(body.senha())) { // Comparação direta sem hashing
             String token = this.tokenService.generateToken(user);
-            return  ResponseEntity.ok(new ResponseDTO(user.getNome(),token));
+            return  ResponseEntity.ok(new ResponseDTO(user.getEmail(),token));
         }
         return ResponseEntity.badRequest().build();
     }
@@ -49,7 +49,7 @@ public class AuthControlller {
         newUser.setNome(body.nome());
         this.repository.save(newUser);
             String token = this.tokenService.generateToken(newUser);
-            return  ResponseEntity.ok(new ResponseDTO(newUser.getNome(), token));
+            return  ResponseEntity.ok(new ResponseDTO(newUser.getEmail(),token));
 
     }
         return ResponseEntity.badRequest().build();

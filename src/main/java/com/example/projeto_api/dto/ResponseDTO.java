@@ -1,4 +1,4 @@
 package com.example.projeto_api.dto;
 
-public record ResponseDTO (String nome, String token){
+public record ResponseDTO (String email, String token){
 }

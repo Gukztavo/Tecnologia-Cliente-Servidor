@@ -13,11 +13,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+
     private String nome;
+    @Id
     private String email;
     private String senha;
 
@@ -45,7 +45,4 @@ public class User {
         this.email = email;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 }
