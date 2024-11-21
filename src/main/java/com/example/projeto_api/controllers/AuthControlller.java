@@ -1,5 +1,6 @@
 package com.example.projeto_api.controllers;
 
+import com.example.projeto_api.domain.user.Role;
 import com.example.projeto_api.domain.user.User;
 import com.example.projeto_api.dto.LoginRequestDTO;
 import com.example.projeto_api.dto.RegisterRequestDTO;
@@ -47,6 +48,7 @@ public class AuthControlller {
         newUser.setSenha(body.senha()); // Senha armazenada sem hashing (somente para testes)
         newUser.setEmail(body.email());
         newUser.setNome(body.nome());
+        newUser.setRole(Role.user); // Papel padrão USER para novos usuários
         this.repository.save(newUser);
             String token = this.tokenService.generateToken(newUser);
             return  ResponseEntity.ok(new ResponseDTO(newUser.getEmail(),token));

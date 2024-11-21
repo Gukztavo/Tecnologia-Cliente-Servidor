@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,6 +18,12 @@ public class UserController {
     }
     @Autowired
     private UserRepository userRepository;
+
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return ResponseEntity.ok(users);
+    }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/{email}")
@@ -29,5 +36,19 @@ public class UserController {
         }
     }
 
+    @PutMapping("/{email}")
+    public ResponseEntity<User> updateUser(@PathVariable String email, @RequestBody User updatedUser) {
+        Optional<User> existingUser = userRepository.findByEmail(email);
+
+        if (existingUser.isPresent()) {
+            User user = existingUser.get();
+            user.setNome(updatedUser.getNome());
+            user.setSenha(updatedUser.getSenha()); // Certifique-se de usar hashing aqui
+            userRepository.save(user);
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }

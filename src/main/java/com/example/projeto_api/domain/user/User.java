@@ -16,10 +16,14 @@ import lombok.Setter;
 
 public class User {
 
+
     private String nome;
     @Id
     private String email;
     private String senha;
+
+    @Enumerated(EnumType.STRING) // Salva o enum como string no banco
+    private Role role; // Use seu enum Role aqui
 
     public String getEmail() {
         return email;
@@ -45,4 +49,11 @@ public class User {
         this.email = email;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }

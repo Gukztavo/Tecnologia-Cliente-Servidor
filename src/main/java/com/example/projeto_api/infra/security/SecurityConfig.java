@@ -41,7 +41,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+
                         .requestMatchers(HttpMethod.GET,"/usuarios/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/usuarios").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("ADMIN")
+                        // Acesso para usuários autenticados
+                        .requestMatchers(HttpMethod.GET, "/usuarios/{email}").authenticated()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
