@@ -43,8 +43,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
 
                         .requestMatchers(HttpMethod.GET,"/usuarios/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/usuarios").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/usuarios/**").permitAll()
+
+                        //-----------------------------ADMIN---------------------------------------
+                        .requestMatchers(HttpMethod.GET, "/usuarios").hasRole("admin")
+                        .requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("admin")
                         // Acesso para usuários autenticados
                         .requestMatchers(HttpMethod.GET, "/usuarios/{email}").authenticated()
                         .anyRequest().authenticated()
@@ -73,7 +76,8 @@ public class SecurityConfig {
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // Utilizando NoOpPasswordEncoder para armazenar senhas em texto plano (não recomendado para produção)
+        // Utilizando NoOpPasswordEncoder para armazenar senhas em texto plano
+
         return NoOpPasswordEncoder.getInstance();
     }
 

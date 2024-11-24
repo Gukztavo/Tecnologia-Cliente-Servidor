@@ -1,6 +1,7 @@
 package com.example.projeto_api.domain.user;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +23,8 @@ public class User {
     private String email;
     private String senha;
 
-    @Enumerated(EnumType.STRING) // Salva o enum como string no banco
+    @Enumerated(EnumType.STRING)
+    @JsonIgnore// Salva o enum como string no banco
     private Role role; // Use seu enum Role aqui
 
     public String getEmail() {
