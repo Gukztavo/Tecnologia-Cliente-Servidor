@@ -41,13 +41,17 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+                        .requestMatchers(HttpMethod.PUT,"/usuarios/**").permitAll()
 
                         .requestMatchers(HttpMethod.GET,"/usuarios/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/usuarios/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT,"/usuarios/**").permitAll()
+
 
                         //-----------------------------ADMIN---------------------------------------
                         .requestMatchers(HttpMethod.GET, "/usuarios").hasRole("admin")
                         .requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("admin")
+
                         // Acesso para usuários autenticados
                         .requestMatchers(HttpMethod.GET, "/usuarios/{email}").authenticated()
                         .anyRequest().authenticated()
