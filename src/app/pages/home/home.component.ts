@@ -1,19 +1,21 @@
-import { LoginService } from './../../services/login.service';
+import { LoginService } from '../../services/login.service';
 import { CommonModule } from '@angular/common';
-import { UserService } from './../../services/user.service';
+import { UserService } from '../../services/user.service';
 import { Component, OnInit } from '@angular/core';
+import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
+  selector: 'app-home',
+  templateUrl: './home.component.html',
   standalone: true,
   imports: [
     CommonModule,
+    SidebarComponent
     // outros módulos
   ],
 
 })
-export class UserComponent implements OnInit {
+export class HomeComponent implements OnInit {
   usuario: any = null; // Armazena os dados do usuário logado
   emailUsuario: string | null = null;
 

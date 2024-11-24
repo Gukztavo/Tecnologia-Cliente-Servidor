@@ -21,4 +21,9 @@ export class AuthGuard implements CanActivate {
       return false;
     }
   }
+
+  getToken(): string {
+    // Recupera o token do localStorage ou de onde você o armazena
+    return sessionStorage.getItem('token') || '';
+  }
 }

@@ -17,7 +17,7 @@ export class UserService {
   }
   private apiUrl = 'http://localhost:8080/usuarios'; // Base URL para buscar usuários
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getUserByEmail(email: string): Observable<User> {
     const token = sessionStorage.getItem('auth-token'); // Obtém o token armazenado
@@ -27,5 +27,13 @@ export class UserService {
 
     // Faz a solicitação GET para /usuarios/{email}
     return this.http.get<User>(`${this.apiUrl}/${email}`, { headers });
+  }
+  // Atualiza usuário
+  updateUser(email: string, user: any) {
+    return this.http.put<any>(`${this.apiUrl}/${email}`, user);
+  }
+
+  deleteUsuario(email: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${email}`);
   }
 }
