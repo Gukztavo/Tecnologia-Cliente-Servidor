@@ -1,3 +1,4 @@
+import { LoginService } from './../../services/login.service';
 import { CommonModule } from '@angular/common';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
@@ -16,10 +17,10 @@ export class UserComponent implements OnInit {
   usuario: any = null; // Armazena os dados do usuário logado
   emailUsuario: string | null = null;
 
-  constructor(private UserService: UserService) { }
+  constructor(private UserService: UserService, private loginService: LoginService) { }
 
   ngOnInit(): void {
-    this.emailUsuario = sessionStorage.getItem('username'); // Supõe que o email do usuário é armazenado como 'username'
+    this.emailUsuario = this.loginService.getEmailFromToken(); // Supõe que o email do usuário é armazenado como 'username'
     console.log('Email do usuário:', this.emailUsuario);
 
     if (this.emailUsuario) {
