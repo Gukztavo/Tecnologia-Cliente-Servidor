@@ -50,6 +50,6 @@ export class LoginComponent {
   }
 
   navigate(){
-    this.router.navigate(["signup"])
+    this.router.navigate(["usuarios"])
   }
 }
