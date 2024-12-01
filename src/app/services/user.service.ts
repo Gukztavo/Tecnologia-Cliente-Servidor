@@ -19,6 +19,14 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  getAllUsers(): Observable<User[]> {
+    const token = sessionStorage.getItem('auth-token'); // Obtém o token armazenado
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.get<User[]>(`${this.apiUrl}`, { headers });
+  }
   getUserByEmail(email: string): Observable<User> {
     const token = sessionStorage.getItem('auth-token'); // Obtém o token armazenado
     const headers = new HttpHeaders({
@@ -28,12 +36,20 @@ export class UserService {
     // Faz a solicitação GET para /usuarios/{email}
     return this.http.get<User>(`${this.apiUrl}/${email}`, { headers });
   }
+
   // Atualiza usuário
-  updateUser(email: string, user: any) {
-    return this.http.put<any>(`${this.apiUrl}/${email}`, user);
+  updateUser(email: string, user: any): Observable<any> {
+    const token = sessionStorage.getItem('auth-token'); // Obtem o token do armazenamento
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.put<any>(`${this.apiUrl}/${email}`, user,{ headers });
   }
+
 
   deleteUsuario(email: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${email}`);
   }
+
 }
